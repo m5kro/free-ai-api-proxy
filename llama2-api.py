@@ -34,6 +34,15 @@ def process_prompt():
         # Modify the 'data' with the received prompt
         data['prompt'] = prompt
         data['systemPrompt'] = sysP
+        # Set Max Tokens if given
+        if "max_tokens" in received_data:
+            data['maxTokens'] = received_data['max_tokens']
+        # Set temperature if given
+        if "temperature" in received_data:
+            data['temperature'] = received_data['temperature']
+        # Set top p if given
+        if "top_p" in received_data:
+            data['topP'] = received_data['top_p']
         # Make the request to the llama2.ai API
         response = requests.post(url, headers=headers, json=data)
 
