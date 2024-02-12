@@ -4,7 +4,7 @@ A simple proxy to send API requests to https://www.llama2.ai/api with the right 
 ```pip install -r requirements.txt``` <br>
 ```python3 llama2-api.py``` <br>
 The API will start on http://127.0.0.1:5000/api <br>
-You can try the api with ```curl http://127.0.0.1:5000/api   -H "Content-Type: application/json"   -H "Authorization: Bearer $OPENAI_API_KEY"   -d '{
+You can try the api with ```curl http://127.0.0.1:5000/api   -H "Content-Type: application/json"   -H "Authorization: Bearer $NO-KEY-NEEDED"   -d '{
     "model": "gpt-3.5-turbo",
     "messages": [
       {
