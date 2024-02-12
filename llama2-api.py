@@ -29,6 +29,8 @@ def process_prompt():
     prompt = "<s>[INST] <<SYS>>\n" + sysP + "\n<</SYS>>\n\n" + P + " [/INST]\n"
     
     if P and P != "":
+        # Set the model
+        data['model'] = received_data['model']
         # Modify the 'data' with the received prompt
         data['prompt'] = prompt
         data['systemPrompt'] = sysP
