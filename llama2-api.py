@@ -10,7 +10,7 @@ data = {
     "prompt": "When was nato founded?",
     "model": "meta/llama-2-70b-chat",
     "systemPrompt": "You are a helpful assistant.",
-    "temperature": 0.7,
+    "temperature": 0.6,
     "topP": 0.1,
     "topK": 40,
     "maxTokens": 1800,
@@ -23,12 +23,12 @@ app = Flask(__name__)
 @app.route('/api', methods=['POST'])
 def process_prompt():
     received_data = request.get_json()
-    prompt = "You are a coder that follows orders exactly. <s>[INST] " + received_data.get('prompt', '') + " [/INST]"
+    prompt = "<s>[INST] <<SYS>>\n" + received_data.get('systemPrompt', '') + "\n<</SYS>>\n\n" + received_data.get('prompt', '') + " [/INST]\n"
     
     if prompt:
         # Modify the 'data' with the received prompt
         data['prompt'] = prompt
-
+        data['systemPrompt'] = received_data.get('systemPrompt', '')
         # Make the request to the llama2.ai API
         response = requests.post(url, headers=headers, json=data)
 
