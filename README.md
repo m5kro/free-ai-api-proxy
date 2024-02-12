@@ -13,6 +13,12 @@ meta/llama-2-13b-chat<br>
 meta/llama-2-7b-chat<br>
 yorickvp/llava-13b<br>
 nateraw/salmonn<br>
+<br>
+Other Options:<br>
+max_tokens (1-2048)<br>
+temperature<br>
+top_p<br>
+<br>
 You can try the api with ```curl http://127.0.0.1:5000/api   -H "Content-Type: application/json"   -H "Authorization: Bearer $NO-KEY-NEEDED"   -d '{
     "model": "meta/llama-2-70b-chat",
     "messages": [
