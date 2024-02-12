@@ -23,12 +23,15 @@ app = Flask(__name__)
 @app.route('/api', methods=['POST'])
 def process_prompt():
     received_data = request.get_json()
-    prompt = "<s>[INST] <<SYS>>\n" + received_data.get('systemPrompt', '') + "\n<</SYS>>\n\n" + received_data.get('prompt', '') + " [/INST]\n"
+    sysP = received_data['messages'][-2]['content']
+    P = received_data['messages'][-1]['content']
     
-    if prompt:
+    prompt = "<s>[INST] <<SYS>>\n" + sysP + "\n<</SYS>>\n\n" + P + " [/INST]\n"
+    
+    if P and P != "":
         # Modify the 'data' with the received prompt
         data['prompt'] = prompt
-        data['systemPrompt'] = received_data.get('systemPrompt', '')
+        data['systemPrompt'] = sysP
         # Make the request to the llama2.ai API
         response = requests.post(url, headers=headers, json=data)
 
