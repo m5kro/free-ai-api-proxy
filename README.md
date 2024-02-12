@@ -15,7 +15,7 @@ yorickvp/llava-13b<br>
 nateraw/salmonn<br>
 <br>
 Other Options:<br>
-max_tokens (1-2048)<br>
+max_tokens (1-4096)<br>
 temperature<br>
 top_p<br>
 <br>
