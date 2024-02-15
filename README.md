@@ -38,5 +38,5 @@ You can try the api with:```curl http://127.0.0.1:5000/api   -H "Content-Type: a
         {"role": "assistant", "content": "Whos there?"},
         {"role": "user", "content": "Orange."},] }'```<br>
 <br>
-These prompts and commands were copied off of the openai docs. (link was changed to use proxy)
+These prompts and commands were copied off of the openai docs. (link and model was changed to use proxy)
 
