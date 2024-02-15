@@ -19,7 +19,7 @@ max_tokens (1-4096)<br>
 temperature<br>
 top_p<br>
 <br>
-You can try the api with ```curl http://127.0.0.1:5000/api   -H "Content-Type: application/json"   -H "Authorization: Bearer $NO-KEY-NEEDED"   -d '{
+You can try the api with:```curl http://127.0.0.1:5000/api   -H "Content-Type: application/json"   -H "Authorization: Bearer $NO-KEY-NEEDED"   -d '{
     "model": "meta/llama-2-70b-chat",
     "messages": [
       {
@@ -31,5 +31,12 @@ You can try the api with ```curl http://127.0.0.1:5000/api   -H "Content-Type: a
         "content": "Compose a poem that explains the concept of recursion in programming."
       }
     ]
-  }'```
+  }'``` <br>
+  <br>
+  Or for multiple messages:```curl http://127.0.0.1:5000/api   -H "Content-Type: application/json"   -H "Authorization: Bearer $NO-KEY-NEEDED"   -d '{ "model": "meta/llama-2-70b-chat", "messages": [{"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Knock knock."},
+        {"role": "assistant", "content": "Whos there?"},
+        {"role": "user", "content": "Orange."},] }'```<br>
+<br>
+These prompts and commands were copied off of the openai docs. (link was changed to use proxy)
 

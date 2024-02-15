@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 import requests
+import json
+import re
 
 url = "https://www.llama2.ai/api"
 headers = {
@@ -18,16 +20,46 @@ data = {
     "audio": None
 }
 
+# Credit to Dan McDougall (liftoff) for trailing comma cleaner
+def remove_trailing_commas(json_like):
+    trailing_object_commas_re = re.compile(
+        r'(,)\s*}(?=([^"\\]*(\\.|"([^"\\]*\\.)*[^"\\]*"))*[^"]*$)')
+    trailing_array_commas_re = re.compile(
+        r'(,)\s*\](?=([^"\\]*(\\.|"([^"\\]*\\.)*[^"\\]*"))*[^"]*$)')
+    # Fix objects {} first
+    objects_fixed = trailing_object_commas_re.sub("}", json_like)
+    # Now fix arrays/lists [] and return the result
+    return trailing_array_commas_re.sub("]", objects_fixed)
+
 app = Flask(__name__)
 
 @app.route('/api', methods=['POST'])
 def process_prompt():
-    received_data = request.get_json()
-    sysP = received_data['messages'][-2]['content']
-    P = received_data['messages'][-1]['content']
+    # Get the received data and clean it
+    received_data = json.loads(remove_trailing_commas(request.get_data(as_text=True)))
     
-    prompt = "<s>[INST] <<SYS>>\n" + sysP + "\n<</SYS>>\n\n" + P + " [/INST]\n"
+    # Find the system prompt
+    sysP = received_data['messages'][0]['content']
     
+    # Find the first question
+    P = received_data['messages'][1]['content']
+    
+    # Add to the prompt
+    prompt = "<s>[INST] <<SYS>>\\n" + sysP + "\\n<</SYS>>\\n\\n" + P + " [/INST]\\n"
+    
+    # Add any other messages to the prompt and format correctly
+    for i, message in enumerate(received_data['messages']):
+        if i >= 2:
+            content = message['content']
+            if message['role'] == "assistant":
+                prompt += content + "</s>"
+            elif message['role'] == "user":
+                prompt += "<s>[INST] " + content + " [/INST]\\n"
+            else:
+                # If assistant or user is not the role
+                return jsonify({'error': 'Message Role missing or misspelled for messages after system prompt. Must be either "assistant" or "user"'})
+    print(f"Final Prompt: {prompt}")
+
     if P and P != "":
         # Set the model
         data['model'] = received_data['model']
@@ -45,7 +77,6 @@ def process_prompt():
             data['topP'] = received_data['top_p']
         # Make the request to the llama2.ai API
         response = requests.post(url, headers=headers, json=data)
-
         # Return the response from llama2.ai
         return response.text
     else:
