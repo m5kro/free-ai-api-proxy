@@ -3,7 +3,7 @@ A simple proxy to send API requests to https://www.llama2.ai/api with the right 
 # Goals
 1. Add other openai API options ✅<br>
 2. Also send old messages ✅<br>
-3. Return in openai json format <br>
+3. Return in openai json format ✅<br>
 # How to use
 ```pip install -r requirements.txt``` <br>
 ```python3 llama2-api.py``` <br>
