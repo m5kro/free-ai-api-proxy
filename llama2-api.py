@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import requests
 import json
 import re
+import time
 
 url = "https://www.llama2.ai/api"
 headers = {
@@ -20,6 +21,32 @@ data = {
     "audio": None
 }
 
+response = {
+    "id": "chat-free",
+    "choices": [
+        {
+            "finish_reason": "stop",
+            "index": 0,
+            "logprobs": None,
+            "message": {
+                "content": "Orange who?",
+                "role": "assistant",
+                "function_call": None,
+                "tool_calls": None
+            }
+        }
+    ],
+    "created": 1704461729,
+    "model": "real-human-brain",
+    "object": "chat.completion",
+    "system_fingerprint": None,
+    "usage": {
+        "completion_tokens": 0,
+        "prompt_tokens": 0,
+        "total_tokens": 0
+    }
+}
+
 # Credit to Dan McDougall (liftoff) for trailing comma cleaner
 def remove_trailing_commas(json_like):
     trailing_object_commas_re = re.compile(
@@ -35,6 +62,9 @@ app = Flask(__name__)
 
 @app.route('/api', methods=['POST'])
 def process_prompt():
+    # Set the timestamp for response
+    response['created'] = int(round(time.time()))
+
     # Get the received data and clean it
     received_data = json.loads(remove_trailing_commas(request.get_data(as_text=True)))
     
@@ -63,6 +93,7 @@ def process_prompt():
     if P and P != "":
         # Set the model
         data['model'] = received_data['model']
+        response['model'] = received_data['model']
         # Modify the 'data' with the received prompt
         data['prompt'] = prompt
         data['systemPrompt'] = sysP
@@ -76,9 +107,11 @@ def process_prompt():
         if "top_p" in received_data:
             data['topP'] = received_data['top_p']
         # Make the request to the llama2.ai API
-        response = requests.post(url, headers=headers, json=data)
-        # Return the response from llama2.ai
-        return response.text
+        llama_response = requests.post(url, headers=headers, json=data)
+        # Add the response to the json
+        response['choices'][0]['message']['content'] = llama_response.text
+        # Return the formatted json
+        return response
     else:
         return jsonify({'error': 'No prompt provided'})
 
