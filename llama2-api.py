@@ -60,7 +60,7 @@ def remove_trailing_commas(json_like):
 
 app = Flask(__name__)
 
-@app.route('/api', methods=['POST'])
+@app.route('/api/chat/completions', methods=['POST'])
 def process_prompt():
     # Set the timestamp for response
     response['created'] = int(round(time.time()))
