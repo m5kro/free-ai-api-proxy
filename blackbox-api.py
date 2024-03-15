@@ -25,7 +25,7 @@ data = {
 	"isMicMode": False,
 	"userSystemPrompt":"Explain this code",
 	"maxTokens":1024,
-	"webSearchMode":True,
+	"webSearchMode":False,
 	"promptUrls":"",
 	"isChromeExt":False,
 	"githubToken":None
@@ -84,21 +84,19 @@ def process_prompt():
 	# Add any other messages to the prompt and format correctly
 	for i, message in enumerate(received_data['messages']):
 		if i >= 1:
-			content = message['content']
-		if message['role'] == "assistant":
-			data.messages.append({"role": "assistant", "content": content})
-		elif message['role'] == "user":
-			data.messages.append({"role": "user", "content:": content})
-		else:
-			# If assistant or user is not the role
-			return jsonify({'error': 'Message Role missing or misspelled for messages after system prompt. Must be either "assistant" or "user"'})
-	print(f"Final Prompt: {data}")
+			if message['role'] == "assistant":
+				data['messages'].append({"id":"","content": message['content'],"role": "assistant"})
+			elif message['role'] == "user":
+				data['messages'].append({"id":"", "content": message['content'],"role": "user"})
+			else:
+				# If assistant or user is not the role
+				return jsonify({'error': 'Message Role missing or misspelled for messages after system prompt. Must be either "assistant" or "user"'})
 
 	if "model" not in received_data:
 		return jsonify({'error': 'No model provided'})
-	elif received_data['model'] == "blackbox_code":
+	elif received_data['model'] == "blackbox-code":
 		data["codeModelMode"] = True
-	elif received_data['model'] == "blackbox_chat":
+	elif received_data['model'] == "blackbox-chat":
 		data["codeModelMode"] = False
 	else:
 		return jsonify({'error': 'Invalid model provided'})
@@ -107,6 +105,7 @@ def process_prompt():
 	# Set Max Tokens if given
 	if "max_tokens" in received_data:
 		data['maxTokens'] = received_data['max_tokens']
+	print("Data before sending:", data)
 	# Make the request to the blackbox.ai API
 	blackbox_response = requests.post(url, headers=headers, json=data)
 	# Add the response to the json
