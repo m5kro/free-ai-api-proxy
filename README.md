@@ -29,6 +29,8 @@ temperature (llama2 only)<br>
 top_p (llama2 only)<br>
 <br>
 You can try the api with:<br>
-```python3 test-api.py``` <br>
+```python3 terminal-test-api.py``` <br>
+or without interactivity:<br>
+```python3 test-api.py```<br>
 The prompts and commands were copied off of the openai docs. (link and model was changed to use proxy)
 
