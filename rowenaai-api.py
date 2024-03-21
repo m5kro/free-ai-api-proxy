@@ -18,21 +18,10 @@ headers = {
     'Host': 'demo.rowenaai.com',
     'Cookie': '__Host-authjs.csrf-token=5b6c39397f626fd6625ffcfa536ccf5a756f5cd4b36abb51b19268d2a958f351%7C6ad2edb9ffa28bf5e921f211e1db30b56db4aed1b0923c80472beeea16070c11; __Secure-authjs.callback-url=https%3A%2F%2Fdemo.rowenaai.com',
     'Content-Length': '523',
-    'Sec-Ch-Ua': '"Chromium";v="103", ".Not/A)Brand";v="99"',
-    'Next-Router-State-Tree': '%5B%22%22%2C%7B%22children%22%3A%5B%22(chat)%22%2C%7B%22children%22%3A%5B%22__PAGE__%22%2C%7B%7D%5D%7D%5D%7D%2Cnull%2Cnull%2Ctrue%5D',
-    'Sec-Ch-Ua-Mobile': '?0',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.53 Safari/537.36',
     'Content-Type': 'multipart/form-data; boundary=' + boundary,
     'Accept': 'text/x-component',
     'Next-Action': '6ed51a8d1a1a0222478e92cb5c3357db14052913',
-    'Sec-Ch-Ua-Platform': '"macOS"',
-    'Origin': 'https://demo.rowenaai.com',
-    'Sec-Fetch-Site': 'same-origin',
-    'Sec-Fetch-Mode': 'cors',
-    'Sec-Fetch-Dest': 'empty',
-    'Referer': 'https://demo.rowenaai.com/',
-    'Accept-Encoding': 'gzip, deflate',
-    'Accept-Language': 'en-US,en;q=0.9'
+    'Origin': 'https://demo.rowenaai.com'
 }
 
 def isolate_line_starting_with_2(multiline_string):
